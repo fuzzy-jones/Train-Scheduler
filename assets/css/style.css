@@ -1,0 +1,20 @@
+.container {
+    margin-bottom: 20px;
+}
+
+.panel-head {
+    padding: 10px;
+    font-size: 24px;
+    color: white;
+    background-color: purple;
+}
+
+button {
+    margin-top: 10px;
+    padding: 5px;
+    background-color: lightgray;
+}
+
+.panel {
+    border: 1px solid black;
+}
