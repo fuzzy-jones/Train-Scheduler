@@ -27,10 +27,10 @@ $("#submit").on("click", function(event) {
     frequency = $("#frequency").val().trim();
 
     // empty all inputs after submit is clicked
-    $("#train-name").val(' ');
-    $("#destination").val(' ');
-    $("#first-train").val(' ');
-    $("#frequency").val(' ');
+    $("#train-name").val('');
+    $("#destination").val('');
+    $("#first-train").val('');
+    $("#frequency").val('');
 
     // pushing the value inputs of the variables to the firebase database
     database.ref().push({
@@ -45,19 +45,16 @@ $("#submit").on("click", function(event) {
 // database reference on child added, snapshot function???
 database.ref().on("child_added", function(snapshot) {
 
+    var sv = snapshot.val();
     // console log all snapshot values
-    console.log(snapshot.val());
-    console.log(snapshot.val().trainName);
-    console.log(snapshot.val().destination);
-    console.log(snapshot.val().firstTrain);
-    console.log(snapshot.val().frequency);
+    console.log(sv);
+    console.log(sv.trainName);
+    console.log(sv.destination);
+    console.log(sv.firstTrain);
+    console.log(sv.frequency);
 
-    // display text in the html table
-    $("#train-name-display").text(snapshot.val().trainName);
-    $("#destination-display").text(snapshot.val().destination);
-    $("#frequency-display").text(snapshot.val().frequency);
-    // $("#next-arrival-display").text(snapshot.val().nextArrival);
-    // $("#minutes-away-display").text(snapshot.val().minutesAway);
+    // display text in the html table body
+    $("tbody").append("<tr><td>" + sv.trainName + "</td><td>" + sv.destination + "</td><td>" + sv.frequency + "</td></tr>");
 
 // handle errors
 }, function(errorObject) {
