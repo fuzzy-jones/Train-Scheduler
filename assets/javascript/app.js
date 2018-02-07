@@ -45,16 +45,31 @@ $("#submit").on("click", function(event) {
 // database reference on child added, snapshot function???
 database.ref().on("child_added", function(snapshot) {
 
+    // store the snapshot value in a new variable called sv
     var sv = snapshot.val();
-    // console log all snapshot values
-    console.log(sv);
-    console.log(sv.trainName);
-    console.log(sv.destination);
-    console.log(sv.firstTrain);
-    console.log(sv.frequency);
+
+    // set it one year back
+    var firstTrainConverted = moment(sv.firstTrain, "HH:mm").subtract(1, "years");
+    
+    // moment js is stored in new variable
+    var currentTime = moment();
+
+    // difference between current time and first train
+    var timeDifference = moment().diff(moment(firstTrainConverted), "minutes");
+
+    // time between the difference and the frequency
+    var timeApart = timeDifference % sv.frequency;
+
+    // time until next train
+    var minutesUntilTrain = sv.frequency - timeApart;
+
+    // when the next train arrives
+    var nextTrain = moment().add(minutesUntilTrain, "minutes");
+
+
 
     // display text in the html table body
-    $("tbody").append("<tr><td>" + sv.trainName + "</td><td>" + sv.destination + "</td><td>" + sv.frequency + "</td></tr>");
+    $("tbody").append("<tr><td>" + sv.trainName + "</td><td>" + sv.destination + "</td><td>" + sv.frequency + "</td><td>" + moment(nextTrain).format("HH:mm") + "</td><td>" + minutesUntilTrain + "</td></tr>");
 
 // handle errors
 }, function(errorObject) {
